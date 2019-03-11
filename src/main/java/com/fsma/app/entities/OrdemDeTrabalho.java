@@ -28,7 +28,7 @@ public class OrdemDeTrabalho {
 	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	
@@ -46,7 +46,9 @@ public class OrdemDeTrabalho {
 	public void setDataInicio(Date dataInicio) {
 		this.dataInicio = dataInicio;
 	}
-	Parei Aqui
+	
+	@ManyToOne
+	@JoinColumn(name = "orcamento_id")
 	public Orcamento getOrcamento() {
 		return orcamento;
 	}

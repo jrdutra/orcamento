@@ -1,7 +1,8 @@
 package com.fsma.app.entities;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -9,56 +10,54 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
 
 @Entity
-@Table(name = "empresa")
-public class Empresa {
+@Table(name = "cliente")
+public class Cliente {
 
 	private static final long serialVersionUID = 1L;
-	
-	private long id;
-	private String nomeFantasia;
-	private String razaoSocial;
-	private String Cnpj;
+
+	private Long id;
+	private String cpf;
+	private String nome;
+	private String celular;
 	private String logradouro;
 	private String bairro;
 	private String cidade;
 	private String estado;
 	private String email;
-	private List<Empregado> empregados;
-
+	private List<Orcamento> orcamentos;
+	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	public void setId(long id) {
 		this.id = id;
 	}
-
-	public String getNomeFantasia() {
-		return nomeFantasia;
-	}
-	public void setNomeFantasia(String nomeFantasia) {
-		this.nomeFantasia = nomeFantasia;
-	}
-
-	public String getRazaoSocial() {
-		return razaoSocial;
-	}
-	public void setRazaoSocial(String razaoSocial) {
-		this.razaoSocial = razaoSocial;
-	}
 	
-	@Column(name= "cnpj", nullable = false)
-	public String getCnpj() {
-		return Cnpj;
+	public String getCpf() {
+		return cpf;
 	}
-	public void setCnpj(String cnpj) {
-		Cnpj = cnpj;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
-	
+
+	public String getNome() {
+		return nome;
+	}
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCelular() {
+		return celular;
+	}
+	public void setCelular(String celular) {
+		this.celular = celular;
+	}
+
 	public String getLogradouro() {
 		return logradouro;
 	}
@@ -72,7 +71,6 @@ public class Empresa {
 	public void setBairro(String bairro) {
 		this.bairro = bairro;
 	}
-
 
 	public String getCidade() {
 		return cidade;
@@ -95,26 +93,18 @@ public class Empresa {
 		this.email = email;
 	}
 
-	@OneToMany(mappedBy = "empresa", 
-			   targetEntity = Empregado.class, 
+	@OneToMany(mappedBy = "cliente", 
+			   targetEntity = Orcamento.class, 
 			   fetch = FetchType.LAZY, 
 			   cascade = CascadeType.ALL)
-	public List<Empregado> getEmpregados() {
-		return empregados;
+	public List<Orcamento> getOrcamentos() {
+		return orcamentos;
 	}
-	public void setEmpregados(List<Empregado> empregados) {
-		this.empregados = empregados;
+	public void setOrcamentos(List<Orcamento> orcamentos) {
+		this.orcamentos = orcamentos;
 	}
-	
-	
-	@Override
-	public String toString() {
-		return "Empresa [id=" + id + ", nomeFantasia=" + nomeFantasia + ", razaoSocial=" + razaoSocial + ", Cnpj="
-				+ Cnpj + ", logradouro=" + logradouro + ", bairro=" + bairro + ", cidade=" + cidade + ", estado="
-				+ estado + ", email=" + email + "]";
-	}
+
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
 }
