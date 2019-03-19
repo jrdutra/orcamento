@@ -94,4 +94,10 @@ public class Cliente {
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
+	@Override
+	public String toString() {
+		return "Cliente [id=" + id + ", cpf=" + cpf + ", nome=" + nome + ", celular=" + celular + ", logradouro="
+				+ logradouro + ", bairro=" + bairro + ", cidade=" + cidade + ", estado=" + estado + ", email=" + email
+				+ "]";
+	}
 }
