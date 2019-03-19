@@ -1,14 +1,10 @@
 package com.fsma.app.entities;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -17,8 +13,12 @@ public class Cliente {
 
 	private static final long serialVersionUID = 1L;
 
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
+	@Column(name= "cpf", nullable = false)
 	private String cpf;
+	@Column(name= "nome", nullable = false)
 	private String nome;
 	private String celular;
 	private String logradouro;
@@ -26,10 +26,8 @@ public class Cliente {
 	private String cidade;
 	private String estado;
 	private String email;
-	private List<Orcamento> orcamentos;
 	
-	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
+	
 	public Long getId() {
 		return id;
 	}
@@ -43,7 +41,7 @@ public class Cliente {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-
+	
 	public String getNome() {
 		return nome;
 	}
@@ -91,17 +89,6 @@ public class Cliente {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	@OneToMany(mappedBy = "cliente", 
-			   targetEntity = Orcamento.class, 
-			   fetch = FetchType.LAZY, 
-			   cascade = CascadeType.ALL)
-	public List<Orcamento> getOrcamentos() {
-		return orcamentos;
-	}
-	public void setOrcamentos(List<Orcamento> orcamentos) {
-		this.orcamentos = orcamentos;
 	}
 
 	public static long getSerialversionuid() {
