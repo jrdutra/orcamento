@@ -16,15 +16,21 @@ public class Cliente {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	private Long id;
-	@Column(name= "cpf", nullable = false)
+	@Column(name= "cpf", nullable = false, length = 11)
 	private String cpf;
-	@Column(name= "nome", nullable = false)
+	@Column(name= "nome", nullable = false, length = 50)
 	private String nome;
+	@Column(name = "celular", nullable = true, length = 15)
 	private String celular;
+	@Column(name = "logradouro", nullable = true, length = 100)
 	private String logradouro;
+	@Column(name = "bairro", nullable = true, length = 50)
 	private String bairro;
+	@Column(name = "cidade", nullable = true, length = 50)
 	private String cidade;
+	@Column(name = "estado", length = 30)
 	private String estado;
+	@Column(name = "email", nullable = true, length = 40)
 	private String email;
 	
 	
