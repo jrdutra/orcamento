@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import com.fsma.app.dtos.ClienteDto;
+import com.fsma.app.dtos.in.ClienteDtoIn;
+import com.fsma.app.dtos.out.ClienteDtoOut;
 import com.fsma.app.entities.Cliente;
 import com.fsma.app.response.Response;
 import com.fsma.app.services.ClienteService;
-import com.fsma.app.validador.ClienteDtoValidador;
+import com.fsma.app.validador.ClienteValidador;
 
 @RestController
 @RequestMapping("/api/cliente")
@@ -34,43 +34,37 @@ public class ClienteController {
 	private ClienteService clienteService;
 	
 	@Autowired
-	private ClienteDtoValidador clienteDtoValidador;
-	
+	private ClienteValidador clienteValidador;
+
 	@PostMapping("/cadastrar")
-	public ResponseEntity<Response<ClienteDto>> cadastrar(@Valid @RequestBody ClienteDto clienteDto,
+	public ResponseEntity<Response<ClienteDtoOut>> cadastrar(@Valid @RequestBody ClienteDtoIn clienteDtoIn,
 			BindingResult result) throws NoSuchAlgorithmException{
 		
-		Response<ClienteDto> response = new Response<ClienteDto>();
+		Response<ClienteDtoOut> response = new Response<ClienteDtoOut>();
 		
-		clienteDtoValidador.isPodeIncluir(clienteDto, result);
-		
-		Cliente cliente = ClienteDto.toCliente(clienteDto);
-		
-		if(result.hasErrors()) {
+		if (clienteValidador.isNaoPodeIncluir(clienteDtoIn.getCliente(), result)) {
 			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
-		}
+		};
 		
-		this.clienteService.persistir(cliente);
-		
-		response.setData(ClienteDto.toClienteDto(cliente));
+		response.setData(new ClienteDtoOut(this.clienteService.persistir(clienteDtoIn.getCliente())));
 		
 		return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping(value = "buscarid/{id}")
-	public ResponseEntity<Response<ClienteDto>> buscarPorId(@PathVariable("id") Long id){
+	public ResponseEntity<Response<ClienteDtoOut>> buscarPorId(@PathVariable("id") Long id){
 		
-		Response<ClienteDto> response = new Response<ClienteDto>();
+		Response<ClienteDtoOut> response = new Response<ClienteDtoOut>();
 		
-		Optional<Cliente> cliente = clienteService.buscarPorId(id);
+		Optional<Cliente> clienteOpt = clienteService.buscarPorId(id);
 		
-		if(!cliente.isPresent()) {
+		if(!clienteOpt.isPresent()) {
 			response.getErrors().add("Cliente não encontrado para o id " + id);
 			return ResponseEntity.badRequest().body(response);
 		}
 		
-		response.setData(ClienteDto.toClienteDto(cliente.get()));
+		response.setData(new ClienteDtoOut(clienteOpt.get()));
 		
 		return ResponseEntity.ok(response);
 	}
@@ -93,25 +87,23 @@ public class ClienteController {
 	}
 	
 	@PutMapping(value = "atualizar/{id}")
-	public ResponseEntity<Response<ClienteDto>> atualizar(@PathVariable("id") Long id,
-			@Valid @RequestBody ClienteDto clienteDto, BindingResult result) throws ParseException {
+	public ResponseEntity<Response<ClienteDtoOut>> atualizar(@PathVariable("id") Long id,
+			@Valid @RequestBody ClienteDtoIn clienteDtoIn, BindingResult result) throws ParseException {
 		
-		Response<ClienteDto> response = new Response<ClienteDto>();
+		Response<ClienteDtoOut> response = new Response<ClienteDtoOut>();
 		
-		clienteDtoValidador.isPodeAtualizar(clienteDto, result);
+		clienteValidador.isPodeAtualizar(clienteDtoIn.getCliente(), result);
 		
-		clienteDto.setId(id);
-		
-		Cliente cliente = ClienteDto.toCliente(clienteDto);
+		clienteDtoIn.setId(id);
 		
 		if(result.hasErrors()) {
 			result.getAllErrors().forEach(error -> response.getErrors().add(error.getDefaultMessage()));
 			return ResponseEntity.badRequest().body(response);
 		}
 		
-		cliente = clienteService.persistir(cliente);
+		ClienteDtoOut clienteDtoOut = new ClienteDtoOut(clienteService.persistir(clienteDtoIn.getCliente()));
 		
-		response.setData(ClienteDto.toClienteDto(cliente));
+		response.setData(clienteDtoOut);
 		
 		return ResponseEntity.ok(response);
 	}
