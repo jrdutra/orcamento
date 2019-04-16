@@ -1,14 +1,10 @@
 package com.fsma.app.entities;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -16,38 +12,53 @@ import javax.persistence.Table;
 public class Fornecedor {
     private static final long serialVersionUID = 1L;
 	
-	private long id;
-    private String nome;
-    private List<Material> materiais;
-	
-	@Id
+    @Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	public long getId() {
+	private Long id;
+    
+    @Column(name= "nome", nullable = false, length = 60)
+    private String nome;
+    
+    @Column(name= "endereco", nullable = true, length = 100)
+    private String endereco;
+    
+    @Column(name= "telefone", nullable = false, length = 15)
+    private String telefone;
+    
+    @Column(name= "cnpj", nullable = false, length = 14)
+    private String cnpj;
+	
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
-	
 	public String getNome() {
 		return nome;
 	}
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	@OneToMany(mappedBy = "fornecedor", 
-			   targetEntity = Material.class, 
-			   fetch = FetchType.LAZY, 
-			   cascade = CascadeType.ALL)
-	public List<Material> getMateriais() {
-		return materiais;
-	}
-	public void setMateriais(List<Material> materiais) {
-		this.materiais = materiais;
-	}
-	
 	public static long getSerialversionuid() {
 		return serialVersionUID;
+	}
+	public String getEndereco() {
+		return endereco;
+	}
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+	public String getTelefone() {
+		return telefone;
+	}
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+	public String getCnpj() {
+		return cnpj;
+	}
+	public void setCnpj(String cnpj) {
+		this.cnpj = cnpj;
 	}
 }
