@@ -40,9 +40,6 @@ public class Fornecedor {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	public static long getSerialversionuid() {
-		return serialVersionUID;
-	}
 	public String getEndereco() {
 		return endereco;
 	}
@@ -60,5 +57,13 @@ public class Fornecedor {
 	}
 	public void setCnpj(String cnpj) {
 		this.cnpj = cnpj;
+	}
+	public static long getSerialversionuid() {
+		return serialVersionUID;
+	}
+	@Override
+	public String toString() {
+		return "Fornecedor [id=" + id + ", nome=" + nome + ", endereco=" + endereco + ", telefone=" + telefone
+				+ ", cnpj=" + cnpj + "]";
 	}
 }

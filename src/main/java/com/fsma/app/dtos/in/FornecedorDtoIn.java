@@ -49,5 +49,9 @@ public class FornecedorDtoIn {
 	public void setCnpj(String cnpj) {
 		fornecedor.setCnpj(cnpj);
 	}
+
+	public Fornecedor getFornecedor() {
+		return this.fornecedor;
+	}
 	
 }

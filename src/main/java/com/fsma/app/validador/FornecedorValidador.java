@@ -2,6 +2,7 @@ package com.fsma.app.validador;
 
 import java.util.Optional;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -12,7 +13,7 @@ import com.fsma.app.services.FornecedorService;
 @Component
 public class FornecedorValidador {
 	
-	//@Autowired
+	@Autowired
 	private FornecedorService fornecedorService;
 	
 	public boolean isNaoPodeIncluir(Fornecedor fornecedor, BindingResult result) {
@@ -59,6 +60,25 @@ public class FornecedorValidador {
 			result.addError(new ObjectError("telefone", "Telefone deve conter entre 8 e 15 caracteres."));
 		}
 		
+		
+		return result.hasErrors();
+	}
+	
+public boolean isPodeAtualizar(Fornecedor fornecedor, BindingResult result) {
+		
+		//Restrição 1
+		//Id para modificação vazia
+		if(fornecedor.getId()==null) {
+			result.addError(new ObjectError("fornecedor:", "ID do fornecedor informado é invalido"));
+			return false;
+		}
+		
+		//Restrição 2
+		//Não existe fornecedor com o id informado
+		Optional<Fornecedor> fornecedorOpt = this.fornecedorService.buscarPorId(fornecedor.getId());
+		if(!fornecedorOpt.isPresent()) {
+			result.addError(new ObjectError("fornecedor:", "Fornecedor não encontrado, id inexistente."));
+		}
 		
 		return result.hasErrors();
 	}
