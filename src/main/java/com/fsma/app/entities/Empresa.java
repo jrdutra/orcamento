@@ -1,15 +1,11 @@
 package com.fsma.app.entities;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import java.util.List;
 
 @Entity
 @Table(name = "empresa")
@@ -17,23 +13,40 @@ public class Empresa {
 
 	private static final long serialVersionUID = 1L;
 	
-	private long id;
+	@Id
+	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
+	
+	@Column(name= "nome_fantasia", nullable = true, length = 60)
 	private String nomeFantasia;
+	
+	@Column(name= "razao_social", nullable = false, length = 60)
 	private String razaoSocial;
+	
+	@Column(name= "cnpj", nullable = false)
 	private String Cnpj;
+	
+	@Column(name= "logradouro", nullable = true, length = 100)
 	private String logradouro;
+	
+	@Column(name= "bairro", nullable = true, length = 50)
 	private String bairro;
+	
+	@Column(name= "cidade", nullable = true, length = 50)
 	private String cidade;
+	
+	@Column(name= "estado", nullable = true, length = 20)
 	private String estado;
+	
+	@Column(name= "email", nullable = true, length = 50)
 	private String email;
-	private List<Empregado> empregados;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
@@ -51,7 +64,6 @@ public class Empresa {
 		this.razaoSocial = razaoSocial;
 	}
 	
-	@Column(name= "cnpj", nullable = false)
 	public String getCnpj() {
 		return Cnpj;
 	}
@@ -94,18 +106,6 @@ public class Empresa {
 	public void setEmail(String email) {
 		this.email = email;
 	}
-
-	@OneToMany(mappedBy = "empresa", 
-			   targetEntity = Empregado.class, 
-			   fetch = FetchType.LAZY, 
-			   cascade = CascadeType.ALL)
-	public List<Empregado> getEmpregados() {
-		return empregados;
-	}
-	public void setEmpregados(List<Empregado> empregados) {
-		this.empregados = empregados;
-	}
-	
 	
 	@Override
 	public String toString() {
