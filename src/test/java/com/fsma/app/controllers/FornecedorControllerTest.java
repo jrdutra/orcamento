@@ -4,7 +4,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -23,7 +22,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -137,6 +135,16 @@ public class FornecedorControllerTest {
 		   .andExpect(jsonPath("$.errors").isEmpty());
 	}
 	
+	@Test
+	public void testAtualizarFornecedorInexistente() throws Exception {
+		Long idInexistente = repository.findTopByOrderByIdDesc().getId();
+		idInexistente++;
+		fornecedorSalvo.setId(idInexistente);
+		mvc.perform(putRequestJSON(ATUALIZAR_FORNECEDOR_URL + fornecedorSalvo.getId(), fornecedorSalvo))
+		   .andExpect(status().isBadRequest())
+		   .andExpect(jsonPath("$.data").isEmpty())
+		   .andExpect(jsonPath("$.errors").value("Fornecedor não encontrado, id inexistente."));
+	}
 	
 	//FUNÇÕES AUXILIARES
 	private MockHttpServletRequestBuilder getRequestJSON(String url) {
