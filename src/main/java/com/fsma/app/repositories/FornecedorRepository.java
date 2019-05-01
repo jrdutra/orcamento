@@ -15,4 +15,7 @@ public interface FornecedorRepository  extends JpaRepository<Fornecedor, Long>{
 	@Transactional(readOnly = true)
 	Optional<Fornecedor> findById(Long id);
 	
+	@Transactional(readOnly = true)
+	Fornecedor findTopByOrderByIdDesc();
+	
 }
