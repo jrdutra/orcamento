@@ -72,7 +72,7 @@ public class FornecedorControllerTest {
 		mvc.perform(get(BUSCAR_FORNECEDOR_ID_URL + Mockito.anyString()).accept(MediaType.APPLICATION_JSON))
 			.andExpect(status().isNotFound());
 	}
-	//TESTA A BUSCA DE UM FORNECEDOR POR UM ID EXISTENTE
+	//TESTA A BUSCA DE UM FORNECEDOR POR UM ID EXISTENTE(Requisição GET)
 	@Test
 	public void testBuscarFornecedorExistente() throws Exception {
 		mvc.perform(getRequestJSON(BUSCAR_FORNECEDOR_ID_URL + fornecedorSalvo.getId()))
@@ -85,13 +85,10 @@ public class FornecedorControllerTest {
 			.andExpect(jsonPath("$.errors").isEmpty());
 	}
 	
-	//TESTA O CADASTRO DE UM FORNECEDOR NÃO EXISTENTE NO BANCO
+	//TESTA O CADASTRO DE UM FORNECEDOR NÃO EXISTENTE NO BANCO(Requisição POST)
 	@Test
 	public void testCadastrarFornecedorExistente() throws Exception{
-		mvc.perform(MockMvcRequestBuilders.post(CADASTRAR_FORNECEDOR_URL)
-				.content(this.obterJsonRequeisicaoPost())
-				.contentType(MediaType.APPLICATION_JSON)
-				.accept(MediaType.APPLICATION_JSON))
+		mvc.perform(postRequestJSON(CADASTRAR_FORNECEDOR_URL))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.data.nome").value(fornecedorNaoSalvo.getNome()))
 				.andExpect(jsonPath("$.data.cnpj").value(fornecedorNaoSalvo.getCnpj()))
@@ -107,9 +104,11 @@ public class FornecedorControllerTest {
 		MockHttpServletRequestBuilder request = get(url);
 		return request.contentType(MediaType.APPLICATION_JSON);
 	}
-	private MockHttpServletRequestBuilder postRequestJSON(String url) {
+	private MockHttpServletRequestBuilder postRequestJSON(String url) throws JsonProcessingException {
 		MockHttpServletRequestBuilder request = post(url);
-		return null;
+		return request.content(this.obterJsonRequeisicaoPost())
+				.contentType(MediaType.APPLICATION_JSON)
+				.accept(MediaType.APPLICATION_JSON);
 	}
 	//FUNCAO PARA CRIAR UMA STRING jSON DE UM FornecedorDtoIn
 	private String obterJsonRequeisicaoPost() throws JsonProcessingException{
