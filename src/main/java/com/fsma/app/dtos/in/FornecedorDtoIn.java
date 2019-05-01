@@ -9,6 +9,10 @@ public class FornecedorDtoIn {
 	public FornecedorDtoIn() {
 		fornecedor = new Fornecedor();
 	}
+	
+	public FornecedorDtoIn(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
+	}
 
 	public Long getId() {
 		return fornecedor.getId();
