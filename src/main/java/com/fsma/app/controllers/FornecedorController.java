@@ -2,6 +2,8 @@ package com.fsma.app.controllers;
 
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -66,6 +68,31 @@ public class FornecedorController {
 		}
 		
 		response.setData(new FornecedorDtoOut(fornecedorOpt.get()));
+		
+		return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping(value = "buscarnome/{nome}")
+	public ResponseEntity<Response<List<FornecedorDtoOut>>> buscarPorNome(@PathVariable("nome") String nome){
+		
+		Response<List<FornecedorDtoOut>> response = new Response<List<FornecedorDtoOut>>();
+		
+		List<Fornecedor> listaFornecedor = fornecedorService.buscarPorNome(nome);
+		
+		System.out.print(listaFornecedor);
+		
+		List<FornecedorDtoOut> listaFornecedorDtoOut = new ArrayList<FornecedorDtoOut>();
+		
+		if(listaFornecedor.isEmpty()) {
+			response.getErrors().add("Fornecedores não encontrados para o nome " + nome);
+			return ResponseEntity.badRequest().body(response);
+		}
+		
+		for(Fornecedor f : listaFornecedor) {
+			listaFornecedorDtoOut.add(new FornecedorDtoOut(f));
+		}
+		
+		response.setData(listaFornecedorDtoOut);
 		
 		return ResponseEntity.ok(response);
 	}

@@ -1,5 +1,6 @@
 package com.fsma.app.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.fsma.app.entities.Fornecedor;
@@ -19,7 +20,13 @@ public interface FornecedorService {
 	 * @return Optional<Fornecedor>
 	 */
 	Optional<Fornecedor> buscarPorId(Long id);
-	
+	/**
+	 * Retorna uma lista de Fornecedor dado um nome
+	 * 
+	 * @param fornecedor
+	 * @return List<Optional<Fornecedor>>
+	 */
+	List<Fornecedor> buscarPorNome(String nome);
 	/**
 	 * Cadastra um Fornecedor na base de Dados
 	 * 
