@@ -2,6 +2,8 @@ package com.fsma.app.controllers;
 
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -68,6 +70,30 @@ public class EmpresaController {
 		response.setData(new EmpresaDtoOut(empresaOpt.get()));
 		
 		return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping(value = "buscarnomefantasia/{nomeFantasia}")
+	public ResponseEntity<Response<List<EmpresaDtoOut>>> buscarPorNomeFantasia(@PathVariable("nomeFantasia") String nomeFantasia){
+		
+		Response<List<EmpresaDtoOut>> response = new Response<List<EmpresaDtoOut>>();
+		
+		List<Empresa> listaEmpresa = empresaService.buscarPorNomeFantasia(nomeFantasia);
+		
+		List<EmpresaDtoOut> listaEmpresaDtoOut = new ArrayList<EmpresaDtoOut>();
+		
+		if(listaEmpresa.isEmpty()) {
+			response.getErrors().add("Empresas não encontradas para o nome fantasia " + nomeFantasia);
+			return ResponseEntity.badRequest().body(response);
+		}
+		
+		for(Empresa e : listaEmpresa) {
+			listaEmpresaDtoOut.add(new EmpresaDtoOut(e));
+		}
+		
+		response.setData(listaEmpresaDtoOut);
+		
+		return ResponseEntity.ok(response);
+		
 	}
 	
 	@DeleteMapping(value = "remover/{id}")

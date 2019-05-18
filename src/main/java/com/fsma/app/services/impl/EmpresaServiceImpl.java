@@ -1,5 +1,6 @@
 package com.fsma.app.services.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,11 @@ public class EmpresaServiceImpl implements EmpresaService{
 	@Override
 	public Optional<Empresa> buscarPorId(Long id){
 		return empresaRepository.findById(id);
+	}
+	
+	@Override
+	public List<Empresa> buscarPorNomeFantasia(String nomeFantasia){
+		return empresaRepository.findByNomeFantasia(nomeFantasia);
 	}
 	
 	@Override

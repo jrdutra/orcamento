@@ -2,6 +2,8 @@ package com.fsma.app.controllers;
 
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
 import com.fsma.app.dtos.in.ClienteDtoIn;
 import com.fsma.app.dtos.out.ClienteDtoOut;
 import com.fsma.app.entities.Cliente;
@@ -65,6 +68,29 @@ public class ClienteController {
 		}
 		
 		response.setData(new ClienteDtoOut(clienteOpt.get()));
+		
+		return ResponseEntity.ok(response);
+	}
+	
+	@GetMapping(value = "buscarnome/{nome}")
+	public ResponseEntity<Response<List<ClienteDtoOut>>> buscarPorNome(@PathVariable("nome") String nome){
+
+		Response<List<ClienteDtoOut>> response = new Response<List<ClienteDtoOut>>();
+		
+		List<Cliente> listaCliente = clienteService.buscarPorNome(nome);
+
+		List<ClienteDtoOut> listaClienteDtoOut = new ArrayList<ClienteDtoOut>();
+		
+		if(listaCliente.isEmpty()) {
+			response.getErrors().add("Clientes não encontrados para o nome " + nome);
+			return ResponseEntity.badRequest().body(response);
+		}
+		
+		for(Cliente c : listaCliente) {
+			listaClienteDtoOut.add(new ClienteDtoOut(c));
+		}
+		
+		response.setData(listaClienteDtoOut);
 		
 		return ResponseEntity.ok(response);
 	}

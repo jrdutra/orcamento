@@ -53,18 +53,42 @@ public class EmpresaValidador {
 	}
     public boolean isPodeAtualizar(Empresa empresa, BindingResult result) {
 		
-		//Restrição 1
+		//Restrição 0
 		//Id para modificação vazia
 		if(empresa.getId()==null) {
 			result.addError(new ObjectError("empresa:", "ID da empresa informado é invalido"));
 			return false;
 		}
 		
-		//Restrição 2
+		//Restrição 1
 		//Não existe empresa com o id informado
 		Optional<Empresa> empresaOpt = this.empresaService.buscarPorId(empresa.getId());
 		if(!empresaOpt.isPresent()) {
 			result.addError(new ObjectError("empresa:", "Empresa não encontrada, id inexistente."));
+		}
+		
+		//Restrição 2
+		//CNPJ não pode ser vazio
+		if(empresa.getCnpj().isEmpty()) {
+			result.addError(new ObjectError("empresa", "O CNPJ não pode ser vazio."));
+		}
+		
+		//Restrição 2.2
+		//CNPJ deve conter 14 caracteres
+		if(empresa.getCnpj().length() != 14) {
+			result.addError(new ObjectError("empresa", "O CNPJ deve conter 14 caracteres, sem pontos ou traços."));
+		}
+		
+		//Restrição 3
+		//Razao Social não pode ser vazia
+		if(empresa.getRazaoSocial().isEmpty()) {
+			result.addError(new ObjectError("empresa", "A Razão social não pode ser vazia."));
+		}
+		
+		//Restrição 3.1
+		//A Razão social deve conter no máximo 60 caracteres.
+		if(empresa.getRazaoSocial().length()<3 || empresa.getRazaoSocial().length()>60) {
+			result.addError(new ObjectError("empresa", "A Razão social deve conter entre 3 e 60 caracteres."));
 		}
 		
 		return result.hasErrors();

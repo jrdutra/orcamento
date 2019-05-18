@@ -1,5 +1,6 @@
 package com.fsma.app.services.impl;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,11 @@ public class ClienteServiceImpl implements ClienteService {
 	@Override
 	public Optional<Cliente> buscarPorId(Long id){
 		return clienteRepository.findById(id);
+	}
+	
+	@Override
+	public List<Cliente> buscarPorNome(String nome){
+		return clienteRepository.findByNome(nome);
 	}
 	
 	@Override

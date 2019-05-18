@@ -51,13 +51,13 @@ public class FornecedorController {
 		}
 		
 		response.setData(new FornecedorDtoOut(this.fornecedorService.persistir(fornecedorDtoIn.getFornecedor())));
-		
+
 		return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping(value = "buscarid/{id}")
 	public ResponseEntity<Response<FornecedorDtoOut>> buscarPorId(@PathVariable("id") Long id){
-		
+
 		Response<FornecedorDtoOut> response = new Response<FornecedorDtoOut>();
 		
 		Optional<Fornecedor> fornecedorOpt = fornecedorService.buscarPorId(id);
@@ -74,13 +74,11 @@ public class FornecedorController {
 	
 	@GetMapping(value = "buscarnome/{nome}")
 	public ResponseEntity<Response<List<FornecedorDtoOut>>> buscarPorNome(@PathVariable("nome") String nome){
-		
+
 		Response<List<FornecedorDtoOut>> response = new Response<List<FornecedorDtoOut>>();
 		
 		List<Fornecedor> listaFornecedor = fornecedorService.buscarPorNome(nome);
-		
-		System.out.print(listaFornecedor);
-		
+
 		List<FornecedorDtoOut> listaFornecedorDtoOut = new ArrayList<FornecedorDtoOut>();
 		
 		if(listaFornecedor.isEmpty()) {
@@ -101,7 +99,7 @@ public class FornecedorController {
 	public ResponseEntity<Response<String>> remover(@PathVariable("id") Long id){
 		Response<String> response = new Response<String>();
 		Optional<Fornecedor> fornecedor = this.fornecedorService.buscarPorId(id);
-		
+
 		if(!fornecedor.isPresent()) {
 			response.getErrors().add("Erro ao remover o fornecedor. Fornecedor não encontrado para o ID " + id);
 			return ResponseEntity.badRequest().body(response);
@@ -117,7 +115,7 @@ public class FornecedorController {
 	@PutMapping(value = "atualizar/{id}")
 	public ResponseEntity<Response<FornecedorDtoOut>> atualizar(@PathVariable("id") Long id,
 			@Valid @RequestBody FornecedorDtoIn fornecedorDtoIn, BindingResult result) throws ParseException {
-		
+
 		Response<FornecedorDtoOut> response = new Response<FornecedorDtoOut>();
 		
 		fornecedorValidador.isPodeAtualizar(fornecedorDtoIn.getFornecedor(), result);
