@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.fsma.app.entities.Empresa;
@@ -28,7 +30,8 @@ public class EmpresaServiceImpl implements EmpresaService{
 	
 	@Override
 	public List<Empresa> buscarPorNomeFantasia(String nomeFantasia){
-		return empresaRepository.findByNomeFantasia(nomeFantasia);
+		Pageable p = PageRequest.of(0, 3);
+		return empresaRepository.findTop3ByNomeFantasia(nomeFantasia, p);
 	}
 	
 	@Override

@@ -3,6 +3,7 @@ package com.fsma.app.repositories;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -20,6 +21,6 @@ public interface EmpresaRepository  extends JpaRepository<Empresa, Long>{
 	
 	@Transactional(readOnly = true)
 	@Query("SELECT empresa FROM Empresa empresa WHERE empresa.nomeFantasia like %:pNomeFantasia%")
-	List<Empresa> findByNomeFantasia(@Param("pNomeFantasia") String empresaNomeFantasia);
+	List<Empresa> findTop3ByNomeFantasia(@Param("pNomeFantasia") String empresaNomeFantasia, Pageable pageable);
 	
 }

@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.fsma.app.entities.Cliente;
@@ -29,7 +31,8 @@ public class ClienteServiceImpl implements ClienteService {
 	
 	@Override
 	public List<Cliente> buscarPorNome(String nome){
-		return clienteRepository.findByNome(nome);
+		Pageable p = PageRequest.of(0, 3);
+		return clienteRepository.findTop3ByNome(nome, p);
 	}
 	
 	@Override

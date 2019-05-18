@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.fsma.app.entities.Fornecedor;
@@ -28,7 +30,8 @@ public class ForncedorServiceImpl implements FornecedorService{
 	
 	@Override
 	public List<Fornecedor> buscarPorNome(String nome){
-		return fornecedorRepository.findByNome(nome);
+		Pageable p = PageRequest.of(0, 3);
+		return fornecedorRepository.findTop3ByNome(nome, p);
 	}
 	
 	@Override
