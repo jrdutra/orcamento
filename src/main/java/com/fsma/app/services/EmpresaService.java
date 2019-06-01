@@ -13,6 +13,8 @@ public interface EmpresaService {
 	
 	List<Empresa> buscarPorNomeFantasia(String nomeFantasia);
 	
+	List<Empresa> buscarTodas();
+	
 	Empresa persistir(Empresa Empresa);
 	
 	void remover(Long id);

@@ -35,6 +35,11 @@ public class EmpresaServiceImpl implements EmpresaService{
 	}
 	
 	@Override
+	public List<Empresa> buscarTodas(){
+		return empresaRepository.findAll();
+	}
+	
+	@Override
 	public Empresa persistir(Empresa empresa) {
 		return this.empresaRepository.save(empresa);
 	}
