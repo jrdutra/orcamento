@@ -1,17 +1,10 @@
 package com.fsma.app.entities;
 
-import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -20,15 +13,19 @@ public class Empregado {
 
 	private static final long serialVersionUID = 1L;
 	
-	private Long id;
-	private String nome;
-	private String telefone;
-	private String funcao;
-	private Empresa empresa;
-	private List<OrdemDeTrabalho> ordemDeTrabalho;
-	
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
+	private Long id;
+	@Column(name= "nome", nullable = false, length = 50)
+	private String nome;
+	@Column(name= "cpf", nullable = false, length = 11)
+	private String cpf;
+	@Column(name = "telefone", nullable = true, length = 15)
+	private String telefone;
+	@Column(name= "funcao", nullable = false, length = 50)
+	private String funcao;
+	
+	
 	public Long getId() {
 		return id;
 	}
@@ -36,7 +33,7 @@ public class Empregado {
 		this.id = id;
 	}
 	
-	@Column(name= "nome", nullable = false)
+	
 	public String getNome() {
 		return nome;
 	}
@@ -58,32 +55,19 @@ public class Empregado {
 		this.funcao = funcao;
 	}
 	
-	@ManyToOne
-	@JoinColumn(name = "empresa_id")
-	public Empresa getEmpresa() {
-		return empresa;
+	public String getCpf() {
+		return cpf;
 	}
-	public void setEmpresa(Empresa empresa) {
-		this.empresa = empresa;
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 	
-	@OneToMany(mappedBy = "empregado", 
-			   targetEntity = OrdemDeTrabalho.class, 
-			   fetch = FetchType.LAZY, 
-			   cascade = CascadeType.ALL)
-	public List<OrdemDeTrabalho> getOrdemDeTrabalho() {
-		return ordemDeTrabalho;
-	}
-	public void setOrdemDeTrabalho(List<OrdemDeTrabalho> ordemDeTrabalho) {
-		this.ordemDeTrabalho = ordemDeTrabalho;
-	}
 	@Override
 	public String toString() {
-		return "Empregado [id=" + id + ", nome=" + nome + ", telefone=" + telefone + ", funcao=" + funcao + "]";
+		return "Empregado [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", telefone=" + telefone + ", funcao="
+				+ funcao + "]";
 	}
 	public static long getSerialversionuid() {
 		return serialVersionUID;
 	}
-	
-	
 }

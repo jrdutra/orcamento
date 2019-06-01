@@ -40,6 +40,7 @@ public class Empresa {
 	
 	@Column(name= "email", nullable = true, length = 50)
 	private String email;
+	
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -85,7 +86,6 @@ public class Empresa {
 		this.bairro = bairro;
 	}
 
-
 	public String getCidade() {
 		return cidade;
 	}
@@ -106,6 +106,7 @@ public class Empresa {
 	public void setEmail(String email) {
 		this.email = email;
 	}
+	
 	
 	@Override
 	public String toString() {
