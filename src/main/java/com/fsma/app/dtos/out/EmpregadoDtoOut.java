@@ -55,8 +55,12 @@ public class EmpregadoDtoOut {
 		empregado.setFuncao(funcao);
 	}
 
-	public Long getEmpresa() {
+	public Long getEmpresaId() {
 		return empregado.getEmpresa().getId();
+	}
+	
+	public String getEmpresaNomeFantasia() {
+		return empregado.getEmpresa().getNomeFantasia();
 	}
 
 }
