@@ -1,5 +1,9 @@
 package com.fsma.app.dtos.out;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.fsma.app.entities.Empregado;
 import com.fsma.app.entities.Empresa;
 
 public class EmpresaDtoOut {
@@ -84,6 +88,14 @@ public class EmpresaDtoOut {
 	public void setEmail(String email) {
 		empresa.setEmail(email);
 	}
-	
-	
+
+	public List<EmpregadoDtoOut> getEmpregados() {
+		List<Empregado> listaEmpregados = empresa.getEmpregados();
+		List<EmpregadoDtoOut> listaEmpregadosDtoOut = new ArrayList<EmpregadoDtoOut>();
+		for(Empregado e : listaEmpregados) {
+			listaEmpregadosDtoOut.add(new EmpregadoDtoOut(e));
+		}
+		return listaEmpregadosDtoOut;
+	}
+
 }

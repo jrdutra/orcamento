@@ -1,10 +1,15 @@
 package com.fsma.app.entities;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -41,6 +46,7 @@ public class Empresa {
 	@Column(name= "email", nullable = true, length = 50)
 	private String email;
 	
+	private List<Empregado> empregados;
 
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
@@ -105,6 +111,17 @@ public class Empresa {
 	}
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	@OneToMany(mappedBy = "empresa", 
+			   targetEntity = Empregado.class, 
+			   fetch = FetchType.LAZY, 
+			   cascade = CascadeType.ALL)
+	public List<Empregado> getEmpregados() {
+		return empregados;
+	}
+	public void setEmpregados(List<Empregado> empregados) {
+		this.empregados = empregados;
 	}
 	
 	

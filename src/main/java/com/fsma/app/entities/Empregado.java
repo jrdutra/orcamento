@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -24,7 +26,9 @@ public class Empregado {
 	private String telefone;
 	@Column(name= "funcao", nullable = false, length = 50)
 	private String funcao;
-	
+	@ManyToOne
+	@JoinColumn(name = "empresa_id", nullable = false)
+	private Empresa empresa;
 	
 	public Long getId() {
 		return id;
@@ -32,7 +36,6 @@ public class Empregado {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	
 	
 	public String getNome() {
 		return nome;
@@ -61,7 +64,12 @@ public class Empregado {
 	public void setCpf(String cpf) {
 		this.cpf = cpf;
 	}
-	
+	public Empresa getEmpresa() {
+		return empresa;
+	}
+	public void setEmpresa(Empresa empresa) {
+		this.empresa = empresa;
+	}
 	@Override
 	public String toString() {
 		return "Empregado [id=" + id + ", nome=" + nome + ", cpf=" + cpf + ", telefone=" + telefone + ", funcao="

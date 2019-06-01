@@ -1,14 +1,17 @@
-package com.fsma.app.dtos.in;
+package com.fsma.app.dtos.out;
 
 import com.fsma.app.entities.Empregado;
-import com.fsma.app.entities.Empresa;
 
-public class EmpregadoDtoIn {
+public class EmpregadoDtoOut {
 	
 	private Empregado empregado;
 	
-	public EmpregadoDtoIn() {
+	public EmpregadoDtoOut() {
 		empregado = new Empregado();
+	}
+	
+	public EmpregadoDtoOut(Empregado empregado) {
+		this.empregado = empregado;
 	}
 
 	public Long getId() {
@@ -43,31 +46,17 @@ public class EmpregadoDtoIn {
 	public void setCpf(String cpf) {
 		empregado.setCpf(cpf);
 	}
-	
-	
 
 	public String getFuncao() {
 		return empregado.getFuncao();
 	}
 
-
 	public void setFuncao(String funcao) {
 		empregado.setFuncao(funcao);
 	}
 
-
-	public Empresa getEmpresa() {
-		return empregado.getEmpresa();
+	public Long getEmpresa() {
+		return empregado.getEmpresa().getId();
 	}
 
-
-	public void setEmpresa(Empresa empresa) {
-		empregado.setEmpresa(empresa);
-	}
-
-
-	public Empregado getEmpregado() {
-		return this.empregado;
-	}
-	
 }
