@@ -62,6 +62,12 @@ public class EmpregadoValidador {
 			result.addError(new ObjectError("empregado", "Telefone deve conter entre 8 e 15 caracteres."));
 		}
 		
+		//Restrição 5
+		//Empresa não pode ser vazia
+		if(empregado.getEmpresa().getId()==null) {
+			result.addError(new ObjectError("empregado", "O Empregado deve pertencer a uma empresa."));
+		}
+		
 		
 		return result.hasErrors();
 	}

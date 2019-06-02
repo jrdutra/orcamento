@@ -1,5 +1,8 @@
 package com.fsma.app.dtos.in;
 
+import java.util.List;
+
+import com.fsma.app.entities.Empregado;
 import com.fsma.app.entities.Empresa;
 
 public class EmpresaDtoIn {
@@ -82,6 +85,16 @@ public class EmpresaDtoIn {
 		empresa.setEmail(email);
 	}
 	
+	
+	
+	public List<Empregado> getEmpregados() {
+		return empresa.getEmpregados();
+	}
+
+	public void setEmpregados(List<Empregado> empregados) {
+		empresa.setEmpregados(empregados);
+	}
+
 	public Empresa getEmpresa() {
 		return this.empresa;
 	}

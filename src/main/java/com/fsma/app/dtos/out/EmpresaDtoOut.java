@@ -90,8 +90,11 @@ public class EmpresaDtoOut {
 	}
 
 	public List<EmpregadoDtoOut> getEmpregados() {
-		List<Empregado> listaEmpregados = empresa.getEmpregados();
 		List<EmpregadoDtoOut> listaEmpregadosDtoOut = new ArrayList<EmpregadoDtoOut>();
+		if(empresa.getEmpregados()==null) {
+			return listaEmpregadosDtoOut;
+		}
+		List<Empregado> listaEmpregados = empresa.getEmpregados();
 		for(Empregado e : listaEmpregados) {
 			listaEmpregadosDtoOut.add(new EmpregadoDtoOut(e));
 		}

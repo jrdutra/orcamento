@@ -8,6 +8,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 
 import com.fsma.app.entities.Empresa;
+import com.fsma.app.response.Response;
 import com.fsma.app.services.EmpresaService;
 
 @Component
@@ -92,5 +93,21 @@ public class EmpresaValidador {
 		}
 		
 		return result.hasErrors();
+	}
+	public boolean isNaoPodeRemover(Optional<Empresa> empresa, Response<String> response) {
+		//Restrição 1
+		//Verifica se a empresa existe
+		if(!empresa.isPresent()) {
+			response.getErrors().add("Erro ao remover a empresa. Empresa não encontrada");
+			return true;
+		}
+		//Restrição 2
+		//Verifica se a empresa possui empregados
+		if(empresa.get().getEmpregados().size()!=0) {
+			System.out.println(empresa.get().getEmpregados()); 
+			response.getErrors().add("A empressa não pode ser removida pois possui empregados.");
+			return true;
+		}
+		return false;
 	}
 }

@@ -72,29 +72,6 @@ public class EmpresaController {
 		return ResponseEntity.ok(response);
 	}
 	
-	@GetMapping(value = "buscartodas")
-	public ResponseEntity<Response<List<EmpresaDtoOut>>> buscarTodas(){
-		
-		Response<List<EmpresaDtoOut>> response = new Response<List<EmpresaDtoOut>>();
-		
-		List<Empresa> listaEmpresa = empresaService.buscarTodas();
-		
-		List<EmpresaDtoOut> listaEmpresaDtoOut = new ArrayList<EmpresaDtoOut>();
-		
-		if(listaEmpresa.isEmpty()) {
-			response.getErrors().add("Não há empresas registradas!");
-			return ResponseEntity.badRequest().body(response);
-		}
-		
-		for(Empresa e : listaEmpresa) {
-			listaEmpresaDtoOut.add(new EmpresaDtoOut(e));
-		}
-		
-		response.setData(listaEmpresaDtoOut);
-		
-		return ResponseEntity.ok(response);
-	}
-	
 	@GetMapping(value = "buscarnomefantasia/{nomeFantasia}")
 	public ResponseEntity<Response<List<EmpresaDtoOut>>> buscarPorNomeFantasia(@PathVariable("nomeFantasia") String nomeFantasia){
 		
@@ -121,11 +98,12 @@ public class EmpresaController {
 	
 	@DeleteMapping(value = "remover/{id}")
 	public ResponseEntity<Response<String>> remover(@PathVariable("id") Long id){
+		
 		Response<String> response = new Response<String>();
+		
 		Optional<Empresa> empresa = this.empresaService.buscarPorId(id);
 		
-		if(!empresa.isPresent()) {
-			response.getErrors().add("Erro ao remover a empresa. Empresa não encontrada para o ID " + id);
+		if(empresaValidador.isNaoPodeRemover(empresa, response)) {
 			return ResponseEntity.badRequest().body(response);
 		}
 		
